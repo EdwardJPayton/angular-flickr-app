@@ -3,10 +3,13 @@
 angular.module('routeApp', ['ngRoute'])
 
  .controller('MainController', function($scope, $http, $route) {
-     var flickrAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=JSON_CALLBACK&tagmode=all&format=json";
+    $scope.title = "Angular Flickr API App";
+
+    var flickrAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=JSON_CALLBACK&tagmode=all&format=json";
 
     $scope.images = {};
 
+    // Search images
     $scope.search = function(searchCriteria) {
 
       if (searchCriteria.tags == undefined || searchCriteria.tags.trim() == "") {
@@ -17,65 +20,59 @@ angular.module('routeApp', ['ngRoute'])
       $scope.form.tags.$setValidity();
 
       // build URL for Flickr API
-      
-
       flickrAPI = flickrAPI + "&tags=" + encodeURIComponent($scope.searchCriteria.tags);
       
       // send AJAX query to Flickr API
       $http.jsonp(flickrAPI)
         .success(function (data, status, headers, config) {
           $scope.images = data;
-          $scope.imagesStatus = status;
       })
       .error(function (data, status, headers, config) {
-          console.log(data, status);
+          console.log('error');
       });
       
       // reset form validation
       $scope.form.tags.$setValidity();
     };
 
+    // Default to show on load
     var init = function() {
       flickrAPI = flickrAPI + "&tags=potato";
 
       $http.jsonp(flickrAPI)
         .success(function (data, status, headers, config) {
           $scope.images = data;
-          $scope.imagesStatus = status;
       })
       .error(function (data, status, headers, config) {
           console.log('error')
       });
-    }
+    };
     init();
- })
 
- .controller('BookController', function($scope, $routeParams) {
-     $scope.name = "BookController";
+    $scope.imageRoute = function(item) {
+      var imgUrl = item.link;
+
+      var imageRoute = imgUrl.replace('http://www.flickr.com','');
+
+      return imageRoute;
+    };
+ })
+ .controller('DetailController', function($scope, $routeParams) {
+     $scope.title = "Detail page";
      $scope.params = $routeParams;
  })
 
- .controller('ChapterController', function($scope, $routeParams) {
-     $scope.name = "ChapterController";
-     $scope.params = $routeParams;
- })
-
-.config(function($routeProvider, $locationProvider) {
+  .config(function($routeProvider, $locationProvider) {
   $routeProvider
    .when('/', {
-    templateUrl: 'home.html',
+    templateUrl: 'templates/list.html',
     controller: 'MainController'
    })
-   .when('/Book/:bookId', {
-    templateUrl: 'book.html',
-    controller: 'BookController'
+   .when('/photos/:authorId/:photoId', {
+    templateUrl: 'templates/detail.html',
+    controller: 'DetailController'
   })
-  .when('/Book/:bookId/ch/:chapterId', {
-    templateUrl: 'chapter.html',
-    controller: 'ChapterController'
-  });
 
-  // configure html5 to get links working on jsfiddle
   $locationProvider.html5Mode(true);
 });
 })(window.angular);
@@ -83,3 +80,4 @@ angular.module('routeApp', ['ngRoute'])
 // http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=JSON_CALLBACK&tagmode=all&format=json&tags=potato
 
 // https://docs.angularjs.org/api/ngRoute/service/$route
+// https://docs.angularjs.org/tutorial/step_07

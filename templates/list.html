@@ -1,5 +1,5 @@
-<div class="list">
-	<h1>Angular Flickr</h1>
+<div class="list _wrap">
+	<h1>{{ title }}</h1>
 
 	<form name="form" class="validate-form">
 	  <input name="tags" type="text" placeholder="Enter tags separated by a comma" id="searchCriteria" ng-model="searchCriteria.tags" ng-target="form.tags" />
@@ -7,18 +7,18 @@
 	</form>
 
 	<div id="images" class="app-container">
-	  <h3 ng-show="images.items.length > 0">{{ images.title }}</h3>
+	  <h2 ng-show="images.items.length > 0">{{ images.title }}</h2>
 	  <ul class="added-fig" ng-repeat="item in images.items">
 	  	<li class="item _wrap">
-	  		<div class="item _img">
+	  		<a href="{{ imageRoute(item) }}" class="item _img">
 	    		<img class="added-img" src="{{ item.media.m }}" />
-	    	</div>
+	    	</a>
 	    	<div class="item _content">
-	    		<p>{{ item.title }}</p>
+	    		<h3><a href="{{ imageRoute(item) }}">{{ item.title }}</a></h3>
 	    		<div class="item-content _details">
-	    			<p>{{ item.author }}</p>
+	    			<p><a href="https://flickr.com/photos/{{ item.author_id }}" target="_blank">{{ item.author }}</a></p>
 	    			<p>{{ item.published }}</p>
-	    			<p>{{ item.link }}</p>
+	    			<p><a href="{{ item.link }}" target="_blank">{{ item.link }}</a></p>
 	    		</div>
 	    	</div>
 	    </li>
