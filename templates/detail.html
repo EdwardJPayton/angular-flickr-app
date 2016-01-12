@@ -1,17 +1,15 @@
 <div class="detail _wrap" ng-cloak>
   <p id="forTesting" class="testing">Detail page</p>
 	<section class="detail _content">
-		<h1>{{ item.title }}</h1>
-		<a href="/" class="detail _home-link / btn -btnHome">Home</a>
+		<h1><a href="{{ item.link }}" target="_blank">{{ item.title }}</a></h1>
+		<a href="/" class="detail _homeLink / btn -btnHome">Home</a>
 		<div class="detail _header">
-			<a href="https://flickr.com/photos/{{ item.author_id }}" target="_blank">View post author on Flickr</a>
-     	<p>Published: {{ myDate(item.published) }}</p>
-     	<a href="{{ item.link }}" target="_blank">View on Flickr</a>
+			<a href="https://flickr.com/photos/{{ item.author_id }}" target="_blank" class="link -linkExternal">{{ item.author_id }}</a> | <p>Published: {{ myDate(item.published) }}</p>
 		</div>
     <article class="detail _contentInner">
       <img src="{{ item.media.m }}" />
-      <div class-"detail _tags">
-      	<a href="https://flickr.com/search/?tags={{ tag }}" target="_blank" class="detail _tag" ng-repeat="tag in myTags">{{ tag }}</a>
+      <div class="detail _details">
+      	<span>Tags: </span><a href="https://flickr.com/search/?tags={{ tag }}" target="_blank" class="detail _tag / link -linkExternal" ng-repeat="tag in myTags">{{ tag }}</a>
       </div>
     </article>
 	</section>
