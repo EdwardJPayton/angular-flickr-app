@@ -1,0 +1,87 @@
+*,
+*:before,
+*:after {
+  box-sizing: $boxSizing;
+}
+html {
+  font-size: $pixelBase;
+}
+h1,h2,h3,h4,h5,h6,p,a,span,li,dt,dd {
+  margin: 0;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-weight: $fontMid;
+}
+// line height = font-size * golden ratio
+h1,h2 {
+  font-size: rem(5rem);
+  line-height: 1.5;
+}
+h3,h4 {
+  font-size: rem(4rem);
+  line-height: 1.5;
+}
+p,a,span,li,dt,dd {
+  font-size: rem(2rem);
+  line-height: 1.5;
+}
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// For importing breakpoints into JS - https://www.lullabot.com/blog/article/importing-css-breakpoints-javascript
+body:before {
+  display: none;
+}
+$new-break:reverse($breakpoints);
+@each $name, $size in $new-break {
+  @media screen and ( max-width: ( $size - 1 ) + 'px' ) {
+    body:before {
+      content:"#{$name}";
+    }
+  }
+}
+@media screen and ( min-width: map-get($breakpoints, lrg) + 'px') {
+  body:before {
+    content: "desktop";
+  }
+}
+
+@import "normalize"; // Imported here so Normalize styles don't override Sticky Footer
+
+// Sticky footer
+
+@if ($stickyFooter) {
+  html,
+  body {
+    height: 100%;
+  }
+  body {
+    display: table;
+    width: 100%; // max-width set on the grid
+    margin:auto;
+  }
+  header,
+  main,
+  footer {
+    display: table-row;
+    height: 1px;
+  }
+  main {
+    height: 100%;
+    > .grid-wrap {
+      //height: 100%;
+    }
+  }
+}
+
+
+// Remove dotted line on focus
+:focus {
+  outline: none !important;
+}
+
+::-moz-focus-inner {
+  border: 0 !important;
+}

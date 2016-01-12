@@ -1,0 +1,96 @@
+// http://davidwalsh.name/rem-px-browser-function-sass
+// http://hugogiraudel.com/2013/08/12/sass-functions/
+
+
+// Strip unit from a number
+@function parseInt($n) {
+  @return $n / ($n * 0 + 1);
+}
+
+// Grid function (if set to true, outputs px size - eg for max-width)
+@function grid($cols,$toPx:false) {
+  $result: '';
+  @if ($toPx == false) {
+    $result: ($cols / $columns) * 100%;
+  }
+  @else {
+    $result: round(($maxWidth / $columns) * $cols);
+  }
+
+  @return $result;
+}
+
+// Convert rem into px for old IE
+@function rem($values) {
+  $list: ();
+
+  @each $value in $values {
+    @if (type-of($value) == "number") and ($value != 0) {
+      $unit: unit($value); // get the unit type
+      $val: parseInt($value); // remove the unit type
+      $unitTypes: (px, rem, '%', em); // add to list as needed
+
+      @if ($ie) and ($unit == 'rem') {
+        // if in ie mode and unit is rem
+        $list: append($list, ($val * $pixelBase));
+      }
+
+      @else if index($unitTypes, $unit) {
+        // if not ie mode and is recognised unit type
+        $list: append($list, $value);
+      }
+
+      @else {
+        @warn 'There is no unit conversion for "#{$unit}"';
+      }
+
+    } @else {
+      $list: append($list, $value);
+    }
+  } // @each
+  @return $list();
+}
+
+// Convert rgba to hex for old IE
+@function ep-rgba($color, $opacity: 0.3) {
+    $rtnColor: '';
+
+    @if ($ie) {
+      $rtnColor: lighten($color, (1 - $opacity) * 100%);
+    } @else {
+      $rtnColor: rgba($color, $opacity);
+    }
+    @return $rtnColor;
+}
+
+// Convert svg to png for old IE
+@function svg-png($location) {
+  $result: '';
+
+  // if just one icon is provided
+  @if ($ie) {
+    $result: $location + '.png';
+  }
+  @else {
+    $result: $location + '.svg';
+  }
+
+  @return $result;
+}
+
+// Reverse order of list - http://hugogiraudel.com/2013/08/08/advanced-sass-list-functions/
+@function reverse($list, $recursive: false) {
+   $result: ();
+
+   @for $i from length($list)*-1 through -1 {
+      @if type-of(nth($list, abs($i))) == list and $recursive {
+        $result: append($result, reverse(nth($list, abs($i)), $recursive));
+      }
+
+      @else {
+        $result: append($result, nth($list, abs($i)));
+      }
+   }
+
+   @return $result;
+}

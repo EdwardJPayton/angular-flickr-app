@@ -1,0 +1,202 @@
+// http://css-tricks.com/snippets/css/a-guide-to-flexbox/
+//http://flexboxgrid.com/
+//http://www.mircozeiss.com/tiny-yet-powerful-grid-built-on-css-flex/
+
+$half-gutter: $gutter /2;
+
+
+// DEMO
+.grid-inline-block {
+  display: none;
+}
+
+
+// Flexbox
+.flexbox { // for demo / testing
+
+  // Grid Rows
+  .grid-wrap {
+    width:100%;
+    max-width: $max-width;
+    margin:0 auto;
+  }
+  .grid-row {
+    padding-left:$half-gutter;
+    padding-right:$half-gutter;
+    // Nested Grid Rows
+    .grid-row {
+      padding-left:0;
+      padding-right: 0;
+    }
+  }
+
+  // Grid Items
+  @for $i from 1 through $columns {
+    .grid-i-#{$i} {
+      width:100%;
+      display: block;
+    }
+  }
+
+  @media screen and (min-width: ( map-get($breakpoints, xsml) + 'px') ) {
+    // Grid Row
+    .grid-row {
+      display: flex;
+      // Nested Grid Rows
+      .grid-row {
+        margin-left:-$half-gutter;
+        margin-right:-$half-gutter;
+      }
+    }
+    // Grid Items
+     %grid-flex {
+      padding-left:$half-gutter;
+      padding-right:$half-gutter;
+    }
+    @for $i from 1 through $columns {
+      .grid-i-#{$i} {
+        flex:$i 1 ($i / $columns) * 100%;
+        max-width: ($i / $columns) * 100%;
+        @extend %grid-flex;
+      }
+    }
+
+
+    // Push elements
+    @for $i from 1 through $columns - 1 {
+      .push-i-#{$i} {
+        margin-left:($i / $columns) * 100%;
+      }
+    }
+  }
+
+  // Modifiers - .-no-gutters can be applied to .grid-wrap to effect the whole grid, or .grid-row to effect a single row
+  .-no-item-gutters {
+    // applied to .grid-wrap or .grid-row
+    %no-gutters {
+      padding-left:0;
+      padding-right:0;
+    }
+    .grid-row {
+      @extend %no-gutters;
+    }
+    @for $i from 1 through $columns {
+      .grid-i-#{$i} {
+         @extend %no-gutters;
+      }
+    }
+    &.grid-row {
+      padding-left:$gutter;
+      padding-right:$gutter;
+    }
+  }
+
+  .-no-row-padding { // applied to .grid-wrap or .grid-row
+    .grid-row,
+    &.grid-row {
+      padding-left:0;
+      padding-right:0;
+      margin-left:-$half-gutter;
+      margin-right:-$half-gutter;
+    }
+  }
+
+  .-align-top {
+    align-items:flex-start;
+  }
+  .-align-mid {
+    align-items: center;
+  }
+  .-align-btm {
+    align-items:flex-end;
+  }
+} // .flexbox
+
+/* FLOAT fallback grid */ // In production this would be called from a seperate file only when needed
+.no-js,
+.no-flexbox { // Modernizr
+  %clearfix {
+    &:before,
+    &:after {
+      content: "";
+      display: table;
+    }
+    &:after {
+      clear:both;
+    }
+  }
+  .grid-row {
+    overflow:auto;
+    padding-left:5px;
+    padding-right:5px;
+    @extend %clearfix;
+  }
+  %grid-float {
+    padding-left:5px;
+    padding-right:5px;
+    float: left;
+  }
+  @for $i from 1 through $columns {
+    .grid-i-#{$i} {
+      width: ($i / $columns) * 100%;
+      @extend %grid-float;
+    }
+  }
+
+  // Modifers
+  .-no-gutters {
+    .grid-row,
+    [class*="grid-i-"] {
+      padding-left:0;
+      padding-right:0;
+    }
+  }
+  .-no-row-padding {
+    .grid-row,
+    &.grid-row {
+      padding-left:0;
+      padding-right:0;
+      margin-left:-$half-gutter;
+      margin-right:-$half-gutter;
+    }
+  }
+
+  // Nested
+  .grid-row .grid-row,
+  .grid-row .grid-row .grid-row {
+    padding-left:0;
+    padding-right:0;
+    margin-left:-$half-gutter;
+    margin-right:-$half-gutter;
+  }
+
+  // Push elements
+  @for $i from 1 through $columns - 1 {
+    .push-i-#{$i}.push-i-#{$i} {
+        //left: ($i / $columns) * 100%;
+        //position: relative;
+        margin-left:($i / $columns) * 100%;
+    }
+  }
+    // RESPONSIVE
+  // This needs more work - not tested with different gutter / padding combos, and implementation looks clumsy. !important - yuk
+  @media screen and (min-width: ( map-get($breakpoints, xsml) + 'px') ) {
+    %float-small {
+      float: none;
+      width:100%;
+      margin-left:0 !important;
+      padding:0; // This breaks nested grids
+    }
+    .grid-row,
+    .grid-row .grid-row {
+
+    }
+    @for $i from 1 through $columns {
+      .grid-i-#{$i} {
+         @extend %float-small;
+      }
+    }
+  }
+} // .no-flexbox
+
+/* */

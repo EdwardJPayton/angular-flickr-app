@@ -1,6 +1,6 @@
 (function(angular) {
   'use strict';
-angular.module('routeApp', ['ngRoute'])
+angular.module('FlickrApp', ['ngRoute'])
 
  .controller('MainController', function($scope, $http, $route) {
     $scope.title = "Angular Flickr API App";
@@ -36,26 +36,33 @@ angular.module('routeApp', ['ngRoute'])
     };
 
     // Default to show on load
-    var init = function() {
+    $scope.init = function() {
+
       flickrAPI = flickrAPI + "&tags=potato";
 
       $http.jsonp(flickrAPI)
-        .success(function (data, status, headers, config) {
+        .success(function(data) {
           $scope.images = data;
       })
-      .error(function (data, status, headers, config) {
+      .error(function(data) {
           console.log('error')
       });
-    };
-    init();
 
+    };
+    $scope.init();
+
+    // Convert Flickr URL into route
     $scope.imageRoute = function(item) {
       var imgUrl = item.link;
-
-      var imageRoute = imgUrl.replace('http://www.flickr.com','');
-
-      return imageRoute;
+      var rtnRoute = imgUrl.replace('http://www.flickr.com','');
+      return rtnRoute;
     };
+
+    $scope.thisItem = function(item) {
+
+    }
+
+
  })
  .controller('DetailController', function($scope, $routeParams) {
      $scope.title = "Detail page";
@@ -81,3 +88,6 @@ angular.module('routeApp', ['ngRoute'])
 
 // https://docs.angularjs.org/api/ngRoute/service/$route
 // https://docs.angularjs.org/tutorial/step_07
+// http://stackoverflow.com/questions/16968614/how-to-implment-a-load-more-pagination-in-angularjs-without-ng-repeat
+// http://fdietz.github.io/recipes-with-angular-js/common-user-interface-patterns/paginating-using-infinite-results.html
+// http://stackoverflow.com/questions/12008908/angularjs-how-can-i-pass-variables-between-controllers

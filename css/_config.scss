@@ -1,0 +1,34 @@
+// Root font size
+$pixelBase: 10px; // For Base 10 font sizing
+
+// Box sizing
+$boxSizing: border-box; // Border-box or content-box
+
+// Sticky footer
+$stickyFooter: false; // true or false
+
+// Grid
+$columns: 12;
+$maxWidth: 1200px;
+$gutter:10px;
+// Include gutter on .grid-i-X (add class name to .grid-row or .grid-i-X)
+$includeItemGutter: true; // Setting to false saves ~1.5kb grid compiled size
+// Include .push-x
+$includePush:true;
+// Include .pull-x
+$includePull:true;
+
+// Old IE mode - for rem function, overridden in style-ie.scss
+$ie:false !default;
+
+// Media Query Breakpoints
+$breakpoints: (
+  xsml: 350,
+  sml:  500,
+  mid:  650,
+  lrg:  800,
+  xlrg: 900
+);
+
+// Media Query Tweak Sizes - E.g for making small changes at intermediate breakpoints
+$tweak450: 450;

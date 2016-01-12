@@ -1,9 +1,14 @@
 <div class="detail _wrap">
-	<a href="/">Home</a>
 
-	<h1>{{ title }}</h1>
-
-	Author: {{ params.authorId }}<br />
 	Id: {{ params.photoId }}
 
+	<section class="detail _content">
+		<h1>{{ title }}</h1>
+		<a href="/">Home</a>
+		<div class="detail _header">
+			<a href="https://flickr.com/photos/{{ params.authorId }}" target="_blank">Photo Author</a>
+			
+		</div>
+
+	</section>
 </div>

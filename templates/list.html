@@ -6,10 +6,10 @@
 	  <button type="submit" class="btn btn-primary" ng-click="search(searchCriteria);document.getElementsByName('tags').focus();">Search Flickr</button>
 	</form>
 
-	<div id="images" class="app-container">
+	<div class="list _content">
 	  <h2 ng-show="images.items.length > 0">{{ images.title }}</h2>
-	  <ul class="added-fig" ng-repeat="item in images.items">
-	  	<li class="item _wrap">
+	  <ul class="added-fig">
+	  	<li class="item _wrap" ng-repeat="item in images.items | limitTo: 5">
 	  		<a href="{{ imageRoute(item) }}" class="item _img">
 	    		<img class="added-img" src="{{ item.media.m }}" />
 	    	</a>

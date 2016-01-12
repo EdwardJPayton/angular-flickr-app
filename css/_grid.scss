@@ -1,0 +1,162 @@
+// Inline Block CSS Grid
+
+
+// - Supports IE8 and above
+// - No floats, no clearfix hacks
+// - Unlimited width and number of columns
+// - Use with or without row and item gutters
+// - Can be a simple grid, or can be extended with push and pull elements
+
+
+// Variables used:
+// $maxWidth          grid max width            1200px
+// $columns           no of columns             12
+// $gutter            padding betweeen cols     10px
+
+// $ie                to compile into old IE    false
+// $pixelBase         root pixel size           10px
+
+// $includeItemGutter include guter for items   true or false
+// $includePush       include push classes      true or false
+// $includePull       include pull classes      true or false
+
+
+// Functions used:
+// grid()             widths, l & r positioning
+
+
+// Mixins used:
+// mq()               Media query
+
+
+// Grid Container
+%grid-wrap {
+  width:100%;
+  overflow:hidden;
+}
+.grid-wrap {
+  @extend %grid-wrap;
+}
+// Grid Rows
+%gridRow {
+  font-size: 0;
+  width:100%;
+  max-width: $maxWidth;
+  margin-left: auto;
+  margin-right: auto;
+}
+.grid-row {
+  //position: relative; // Is this needed if no left:-5px?
+  // font-size: 0; 
+  // changed to an extend
+  @extend %gridRow;
+  &.row-gutter {
+    padding-left: $gutter / 2;
+    padding-right: $gutter / 2;
+  }
+  &.no-max-width {
+    max-width:none;
+  }
+}
+// Nested Grid Rows
+.grid-row .grid-row {
+  left:0;
+  padding:0;
+}
+// Grid items
+%gridItem {
+  font-size: $pixelBase;
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+}
+@for $i from 1 through $columns {
+  .grid-i-#{$i} {
+    @extend %gridItem;
+  }
+}
+
+// Reponsive
+@include mq(min,xsml) {
+  // Grid Items
+  @for $i from 1 through $columns {
+    .grid-i-#{$i} {
+      width: grid($i);
+    }
+  }
+
+  // Nested Grid Items
+  @if ($includeItemGutter) {
+    %itemGutter {
+      padding-left: $gutter / 2;
+      padding-right:  $gutter / 2;
+    }
+    %itemGutterFirst {
+      padding-left:0;
+    }
+    %itemGutterLast {
+      padding-right: 0;
+    }
+    @for $i from 1 through $columns {
+      .grid-row > .item-gutter,
+      .item-gutter > .grid-i-#{$i} {
+        @extend %itemGutter;
+        &:first-child {
+          @extend %itemGutterFirst;
+        }
+        @if not ($ie) {
+          &:last-child {
+            @extend %itemGutterLast;
+          }
+        }
+        @else {
+          .last {
+            @extend %itemGutterLast;
+          }
+        }
+      }
+    }
+  } // Nested grid items
+
+  %posRel {
+    position: relative;
+  }
+  // Push Items - moves columns left
+  @if ($includePush) {
+    @for $i from 1 through $columns - 1 {
+      @if not ($ie) {
+        // Modern browsers parse fewer rules by using :not selector
+        .push-#{$i}, .push-#{$i} ~ *:not([class*=push]) {
+          @extend %posRel;
+          left: grid($i);
+        }
+      }
+      @else {
+        // Old IE doesn't support :not selector, will parse the push-X rules multiple times (boooo!)
+        .push-#{$i},
+        .push-#{$i} ~ * {
+          @extend %posRel;
+          left: grid($i);
+        }
+      }
+    }
+  }// $includePush
+
+  // Pull Items - moves columns right
+  @if ($includePull) {
+    // .pull-X is equal to the .grid-i-X number to move the column to the start
+    @for $i from 1 through $columns {
+      .pull-#{$i}.pull-#{$i} { // Double class-name to make pull-X important-er! - http://nyasro.com/css/3/css-important-tips-and-its-alternative
+        @extend %posRel;
+        left: - grid($i);
+      }
+    }
+  } // $includePull
+}
+
+// HTML Structure:
+// div.grid-wrap          The full container width
+//  div.grid-row          The grid items container
+//     div.grid-i-<num>     The grid item(s)
+//      div.grid-row      Nested grid items container
+//        div.grid-i-<num>  Nested grid item(s)

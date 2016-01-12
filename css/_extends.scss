@@ -1,0 +1,72 @@
+// Clearfix
+%cf {
+  *zoom: 1;
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+// @extend %cf;
+
+
+// Hide element
+%h {
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip: rect(0, 0, 0, 0);
+  position: absolute;
+}
+// @extend %h;
+
+
+// Image replacement
+%im {
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: 500%;
+}
+// @extend %im;
+
+
+// Display inline-block
+%in {
+  margin-right: -4px;
+  display: inline-block;
+  vertical-align: top;
+}
+// @extend %in;
+
+
+// Justify line of items
+%ju {
+  text-align: justify;
+  &:after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+  }
+}
+// @extend %ju;
+// Child items - display: inline-block;
+
+%ulInline {
+  padding:0;
+  margin:0;
+  li {
+    list-style:none outside none;
+  }
+}
+
+// obfuscate email
+%ob {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  text-align: left;
+}

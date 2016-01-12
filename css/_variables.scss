@@ -1,0 +1,62 @@
+// Colours
+$temp: #F0F; // e.g use as icon placeholder
+
+// Red - Purple
+$red: #F00;
+$tomato: #ff6347;
+
+// Blue - Green
+$blue: #00F;
+$purple: #4222F1;
+
+// Yellow - Brown
+$yellow: #FF0;
+
+// B+W - light to dark
+$white: #FFF;
+$black: #000;
+$charcoal:#242331;
+
+// Other colours
+$facebook: #576FAA;
+$twitter: #55ACEE;
+
+// High and low - http://alistapart.com/article/mixing-color-for-the-web-with-sass
+$highlight: $white;
+$shadow: #1c235c;
+// eg for colour mixing - mix($highlight, $red, 50%);
+
+
+
+// Sizes
+$px120: 120;
+$px60: 60;
+$px20: 20;
+$px10: 10;
+
+
+// Icon maps
+$iconMap: (
+  "one","two","three","four"
+);
+// @each $icon in $iconMap {
+//  &.-#{$icon} {
+//    --Styles--
+//  }
+// }
+
+
+// Transitions
+$bounce: cubic-bezier(.87,-.41,.19,1.44);
+
+
+
+// Fonts
+//@import url(https://fonts.googleapis.com/css?family=Raleway:500,700,900);
+//$font1: 'Raleway', sans-serif;
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:900,700,400);
+$font1: 'Source Sans Pro', sans-serif;
+
+$fontLight:400;
+$fontMid:700;
+$fontBold:900

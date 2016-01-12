@@ -1,0 +1,106 @@
+$height: 50px;
+
+//
+.cookie-wrapper {
+  background: $black none repeat scroll 0 0;
+  display: none;
+  height: $height;
+  position: relative;
+  margin-top: 0;
+  @include tt(margin-top 0.2s ease);
+  &.hide {
+    margin-top: -50px;
+  }
+}
+.cookie-content {
+  //bottom: 0;
+  height: $height;
+  //left: 50%;
+  margin: auto;
+  max-width: 1200px;
+  padding-top: 14px;
+  //position: absolute;
+  text-align: center;
+  margin-left:50%;
+  @include tf(translate(-50%, 0px));
+  width: 100%;
+  p {
+    padding: 0 10px;
+  }
+  p, p a {
+    display: inline-block;
+  }
+  p, a {
+    color: #fff;
+    line-height: 1em;
+    margin: 0;
+  }
+  a {
+    text-decoration: underline;
+    &:hover,
+    &:active {
+      color: #4176fc;
+    }
+  }
+  .cookie-button {
+    background: $black none repeat scroll 0 0;
+    border-radius: $borderRadius5;
+    color: $white;
+    margin: 0;
+    padding: 8px 20px;
+    text-decoration: none;
+    @include tt(background 0.2s ease);
+    &:hover {
+      color: $white;
+      background: lighten($black, 10%) none repeat scroll 0 0;
+    }
+    &:active {
+      background: $black none repeat scroll 0 0;
+    }
+    &:after {
+      top: -14px;
+    }
+  }
+}
+@media (max-width: 1000px) {
+  .cookie-wrapper {
+    height: 75px;
+  }
+  .cookie-content {
+    height: 75px;
+    padding-top: 3px;
+    .cookie-button {
+      line-height: 3em;
+    }
+  }
+}
+@media (max-width: 810px) {
+  .cookie-wrapper {
+    height: 90px;
+  }
+  .cookie-content {
+    height: 90px;
+  }
+}
+@media (max-width: 430px) {
+  .cookie-wrapper {
+    height: 120px;
+  }
+  .cookie-content {
+    height: 120px;
+    padding-top: 5px;
+  }
+}
+.no-csstransforms .cookie-content {
+  left: auto;
+}
+
+// Gainsborough - fix for header position
+.navbar-fixed-top {
+  top: $height;
+}
+
+//Gainsborough - z index
+.cookie-wrapper {
+  z-index: 1000;
+}

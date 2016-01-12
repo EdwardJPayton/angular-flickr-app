@@ -1,0 +1,11 @@
+// On save compiles a seperate old IE stylesheet
+
+// Override config
+$ie:true;
+
+// import site modules
+@import "style.scss";
+
+// - $ie is set to true (overriding the default value of false)
+// - styles are imported from style.scss
+// - functions and mixins run in old ie mode

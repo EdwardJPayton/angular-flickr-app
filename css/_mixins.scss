@@ -1,0 +1,234 @@
+// Media Query with fallback for old IE
+//Use either a default size from the map, or a number
+@mixin mq($type:min,$size:sml,$size2:null) {
+  @if ($ie) {
+    @if ($type == 'min') {
+      //http://stackoverflow.com/questions/17181849/placeholder-mixin-scss-css
+      @at-root #{if(not &, '.lt-ie9', selector-nest('.lt-ie9', &))} {
+        @content;
+      }
+    }
+  }
+  @else {
+    @if map-has-key($breakpoints, $size) {
+      $size: map-get($breakpoints, $size);
+    }
+    @if ($size2 == null) {
+      @if ($type == 'min') {
+        @media only screen and ( min-width: $size + 'px' ) { @content; }
+      }
+      @else {
+        @media only screen and ( max-width: ($size + -1) + 'px' ) { @content; }
+      }
+    }
+    @else {
+      // Min and max-width query
+      @if map-has-key($breakpoints, $size2) {
+         $size2: map-get($breakpoints, $size2);
+      }
+      @media only screen and ( min-width: $size + 'px' ) and ( max-width: ($size2 - 1) + 'px' ) { @content; }
+    }
+  }
+}
+// @include mq(min,mid) {}
+// @include mq(max,430) {}
+// @include mq(both,mid,900) {}
+
+
+
+// BEM - standard and chainable syntax
+
+// BEM CSS can be achieved like this:
+// .block {
+//   &__element {...} // Standard
+//   &.-modifier {...} // Chainable
+// }
+// This mixin offers an alternative option
+
+@mixin e($element, $chain:yes) {
+  @if($chain == "yes") {
+    &._#{$element} {
+      @content;
+    }
+  } @else {
+    &__#{$element} {
+      @content;
+    }
+  }
+}
+@mixin m($modifier, $chain:yes) {
+  @if($chain == "yes") {
+    &.-#{$modifier} {
+      @content;
+    }
+  } @else {
+    &--#{$modifier} {
+      @content;
+    }
+  }
+}
+// .block {
+//   ...
+//   @include e('element', no) {...} // no for standard
+//   @include m('modifier') {...} // yes or blank for chainable
+// }
+
+
+
+// Before and After
+@mixin ba($ba,$width,$height,$top,$left,$rel:true,$content:null) {
+  @if ($rel == true) {
+    position: relative;
+  }
+  &:#{$ba} {
+    position: absolute;
+    width:$width;
+    height:$height;
+    top:$top;
+    left:$left;
+    content: "#{$content}";
+    @content;
+  }
+}
+// @include ba(before,10px,100%,0,0); // pos:rel will be true, $content will not be included
+
+
+
+// Triangles - Inspired by http://benfrain.com/working-with-lists-and-each-loops-in-sass-with-the-index-and-nth-function/
+@mixin tri($point, $size, $color: #000, $widthHeight:false) {
+  $directions: top, left, bottom, right;
+  @if not index($directions, $point) {
+    @warn "'#{$point}' is not a valid direction. Enter #{$directions}";
+  }
+  @each $direction in $directions {
+    $i: index($directions, $direction); // Get index of direction
+    $newI: if($i > 2, $i - 2, $i + 2); // If index greater than 2 subtract 2, or if less than 2 add 2
+    $oppDirection:nth($directions, $newI); // Get opposite direction from list
+    @if $oppDirection == $point {
+      border-#{$direction}: $size $color solid;
+    }
+    @else {
+      border-#{$direction}: $size transparent solid;
+    }
+  }
+  @if ($widthHeight == true) { // Optional because I include this mixin inside the ba() mixin which also defines w and h
+    width:0;
+    height:0;
+  }
+}
+// @include tri(right, 15px, #f00); // Arrow will point right, no width and height
+
+
+
+// Linear Gradient
+@mixin gr($direction, $color-stops...) {
+  @if ($ie) {
+    background: mix( nth(nth($color-stops, 1), 1) , nth(nth($color-stops, -1), 1) ); // Mix the first and last colors
+  }
+  @else {
+    background: linear-gradient($direction, $color-stops); // W3C linear gradient
+  }
+}
+// @include gr(to bottom,#E47D7D 0%, #C195D3 50%, #4FB4E8 100%); // Add as many $color-stops as needed
+
+
+
+// Transitions
+@mixin tt($args...) {
+  @if not ($ie) {
+    transition: $args;
+  }
+}
+// @include tt(all 2s linear 1s);
+// @include tt(color 300ms ease, height 0.2s ease-in 0.5s);
+
+
+
+// Transforms
+@mixin tf($transform){
+  @if not ($ie) {
+    transform: $transform;
+  }
+}
+// @include tf(skewX(5deg));
+// @include tf(translate(50px 100px) rotate(5deg));
+
+
+
+// Box shadow
+@mixin bs($args...) {
+  @if not ($ie) {
+    box-shadow: $args;
+  }
+}
+// @include bs(0px 4px 5px #666, 2px 6px 10px #999 inset);
+
+
+
+// Keyframes
+@mixin kf($name: 'my-animation') {
+  @if not ($ie) {
+    @at-root {
+      @keyframes #{$name} { @content; }
+    }
+  }
+}
+@mixin an($str) {
+  @if not ($ie) {
+    animation: #{$str};
+  }
+}
+// @include kf(abc) { 0%{ left: 0; } 90% { left: 100%; } }
+// @include an('abc 0.5s ease 0.2s infinite normal forwards running'); // Not all arguments are required
+
+// animation options:
+// name             string
+// duration         n (0.2s or 2000ms)
+// timing-function  linear, ease, ease-in, ease-out, cubic-bezier(n,n,n,n) (http://cubic-bezier.com)
+// delay            n (0.2s or 2000ms)
+// iteration-count  n, infinite
+// direction        normal, reverse, alternate, alternate-reverse
+// fill-mode        forwards, backwards
+// play-state       paused, running
+
+
+
+// SVG background image with raster fallback
+@mixin svg($name-path, $extension: png, $color: transparent, $repeat: no-repeat, $attachment: scroll, $position: 0 0, $size: false) {
+  @if ($ie) {
+    background: $color url('#{$name-path}.#{$extension}') $repeat $attachment $position;
+  }
+  @else {
+    background: $color url('#{$name-path}.svg') $repeat $attachment $position;
+    @if($size){
+      background-size: $size;
+    }
+  }
+}
+// @include svg('img/without/extention', $repeat: repeat); // To override a variable use $var: value
+
+
+// For creating background bars - similar to ba mixin
+@mixin bar($left-right,$w,$l,$r,$bg) {
+  position: relative;
+  z-index: 1;
+  @if $left-right == 'left' {
+    padding-right:5px;
+  }
+  @else {
+    padding-left:5px;
+  }
+  &:before {
+    position: absolute;
+    z-index: -1;
+    content: '';
+    width:$w;
+    height:100%;
+    top:0;
+    left:$l;
+    right:$r;
+    background: $bg;
+    @content;
+  }
+}
+// @include bar(right,500%,auto,-400%,red){ css }

@@ -1,0 +1,13 @@
+// On save compiles the main stylesheet
+@import "variables";
+@import "config";
+
+@import "functions";
+@import "mixins";
+@import "extends";
+
+@import "default-styles";
+
+@import 'grid-semantic';
+
+/* Start of my styles */

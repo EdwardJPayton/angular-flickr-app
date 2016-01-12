@@ -1,0 +1,84 @@
+// Semantic Inline Block CSS Grid
+
+
+// - Supports IE8 and above
+// - No floats, no clearfix hacks
+// - Unlimited width and number of columns
+// - Use with or without row and item gutters
+
+
+// Grid function (if set to true, outputs px size - eg for max-width)
+@function grid($cols,$toPx:false) {
+  $result: '';
+  @if ($toPx == false) {
+    $result: ($cols / $columns) * 100%;
+  }
+  @else {
+    $result: round(($maxWidth / $columns) * $cols);
+  }
+
+  @return $result;
+}
+
+// Grid Container
+%grid-wrap {
+  width:100%;
+  overflow:hidden;
+}
+.grid-wrap {
+  @extend %grid-wrap;
+}
+
+// Grid Rows
+%grid-row {
+  font-size: 0;
+  width:100%;
+  margin: 0 auto;
+}
+.grid-row {
+  @extend %grid-row;
+}
+
+// Nested Grid Rows
+%nested-grid-row {
+  margin:0;
+}
+.grid-row .grid-row {
+  @extend %nested-grid-row;
+}
+
+// Grid items
+%grid-item {
+  font-size: $pixelBase;
+  //width: 100%;
+  display: inline-block;
+  vertical-align: top;
+}
+@for $i from 1 through $columns {
+  .grid-i-#{$i} {
+    @extend %grid-item;
+  }
+}
+
+/*
+// SCSS structure
+.abc {
+  @extend %grid-wrap;
+  .def {
+    @extend %grid-row;
+    .ghi {
+      @extend %grid-item;
+      width: grid(6);
+      .jkl {
+        @extend %nested-grid-row;
+      }
+    }
+  }
+}
+*/
+
+// HTML Structure
+// div.grid-wrap          The full container width
+//  div.grid-row          The grid items container
+//     div.grid-i-<num>   The grid item(s)
+//      div.grid-row      Nested grid items container
