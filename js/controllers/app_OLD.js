@@ -2,7 +2,21 @@
   'use strict';
 angular.module('FlickrApp', ['ngRoute'])
 
- .controller('MainController', function($scope, $http, $route) {
+  .factory('ItemDetailService', function() {
+    var item = {};
+
+    return {
+      setItem:function(data) {
+        item = data;
+      },
+      getItem:function() {
+        console.log(item);
+        return item;
+      }
+    }
+  })
+
+  .controller('MainController', ['$scope', '$http', '$route', 'ItemDetailService', function($scope, $http, $route, ItemDetailService) {
     $scope.title = "Angular Flickr API App";
 
     var flickrAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=JSON_CALLBACK&tagmode=all&format=json";
@@ -21,7 +35,7 @@ angular.module('FlickrApp', ['ngRoute'])
 
       // build URL for Flickr API
       flickrAPI = flickrAPI + "&tags=" + encodeURIComponent($scope.searchCriteria.tags);
-      
+
       // send AJAX query to Flickr API
       $http.jsonp(flickrAPI)
         .success(function (data, status, headers, config) {
@@ -30,8 +44,8 @@ angular.module('FlickrApp', ['ngRoute'])
       .error(function (data, status, headers, config) {
           console.log('error');
       });
-      
-      // reset form validation
+
+      // Reset form validation
       $scope.form.tags.$setValidity();
     };
 
@@ -58,30 +72,30 @@ angular.module('FlickrApp', ['ngRoute'])
       return rtnRoute;
     };
 
-    $scope.thisItem = function(item) {
-
+    // Pass the selected item to the service
+    $scope.openDetail = function(item) {
+      ItemDetailService.setItem(item);
     }
 
+  }])
+  .controller('DetailController', ['$scope', '$routeParams', 'ItemDetailService', function($scope, $routeParams, ItemDetailService) {
+    $scope.title = "Detail page";
+    $scope.item = ItemDetailService.getItem();
+  }])
 
- })
- .controller('DetailController', function($scope, $routeParams) {
-     $scope.title = "Detail page";
-     $scope.params = $routeParams;
- })
+  .config( ['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+    $routeProvider
+     .when('/', {
+      templateUrl: 'templates/list.html',
+      controller: 'MainController'
+     })
+     .when('/photos/:authorId/:photoId', {
+      templateUrl: 'templates/detail.html',
+      controller: 'DetailController'
+    })
 
-  .config(function($routeProvider, $locationProvider) {
-  $routeProvider
-   .when('/', {
-    templateUrl: 'templates/list.html',
-    controller: 'MainController'
-   })
-   .when('/photos/:authorId/:photoId', {
-    templateUrl: 'templates/detail.html',
-    controller: 'DetailController'
-  })
-
-  $locationProvider.html5Mode(true);
-});
+    $locationProvider.html5Mode(true);
+  }]);
 })(window.angular);
 
 // http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=JSON_CALLBACK&tagmode=all&format=json&tags=potato
@@ -91,3 +105,4 @@ angular.module('FlickrApp', ['ngRoute'])
 // http://stackoverflow.com/questions/16968614/how-to-implment-a-load-more-pagination-in-angularjs-without-ng-repeat
 // http://fdietz.github.io/recipes-with-angular-js/common-user-interface-patterns/paginating-using-infinite-results.html
 // http://stackoverflow.com/questions/12008908/angularjs-how-can-i-pass-variables-between-controllers
+// http://onehungrymind.com/angularjs-sticky-notes-pt-1-architecture/

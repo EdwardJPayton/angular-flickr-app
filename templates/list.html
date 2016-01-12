@@ -1,27 +1,26 @@
-<div class="list _wrap">
-	<h1>{{ title }}</h1>
-
-	<form name="form" class="validate-form">
+<div class="list _wrap" ng-cloak>
+	<form name="form" class="list _form">
 	  <input name="tags" type="text" placeholder="Enter tags separated by a comma" id="searchCriteria" ng-model="searchCriteria.tags" ng-target="form.tags" />
-	  <button type="submit" class="btn btn-primary" ng-click="search(searchCriteria);document.getElementsByName('tags').focus();">Search Flickr</button>
+	  <button type="submit" class="btn -btnSubmit" id="formSubmit" ng-disabled="!!!searchCriteria.tags" ng-click="search(searchCriteria);">Search Flickr</button>
 	</form>
 
-	<div class="list _content">
-	  <h2 ng-show="images.items.length > 0">{{ images.title }}</h2>
-	  <ul class="added-fig">
-	  	<li class="item _wrap" ng-repeat="item in images.items | limitTo: 5">
-	  		<a href="{{ imageRoute(item) }}" class="item _img">
-	    		<img class="added-img" src="{{ item.media.m }}" />
+	<section class="list _content">
+		<p ng-show="searching">Searching Flickr</p>
+	  <h2 id="resultTitle" ng-hide="searching" ng-show="images.items.length > 0">{{ images.title }}</h2>
+	 	<ul class="list _listItems / list-no-padding" ng-hide="searching">
+	  	<li class="listItem _wrap" ng-repeat="item in images.items | limitTo: 5">
+	  		<a href="{{ imageRoute(item) }}" class="listItem _link -block" ng-click="openDetail(item)">
+	    		<img class="listItem _img" src="{{ item.media.m }}" />
 	    	</a>
-	    	<div class="item _content">
-	    		<h3><a href="{{ imageRoute(item) }}">{{ item.title }}</a></h3>
-	    		<div class="item-content _details">
-	    			<p><a href="https://flickr.com/photos/{{ item.author_id }}" target="_blank">{{ item.author }}</a></p>
+	    	<article class="listItem _content">
+	    		<h3><a href="{{ imageRoute(item) }}" class="listItem _link"  ng-click="openDetail(item)">{{ item.title }}</a></h3>
+	    		<div class="listItem _details">
+	    			<a href="https://flickr.com/photos/{{ item.author_id }}" target="_blank">{{ item.author }}</a>
 	    			<p>{{ item.published }}</p>
-	    			<p><a href="{{ item.link }}" target="_blank">{{ item.link }}</a></p>
+	    			<a href="{{ item.link }}" target="_blank">{{ item.link }}</a>
 	    		</div>
-	    	</div>
+	    	</article>
 	    </li>
 	  </ul>
-	</div>
+	</section>
 </div>

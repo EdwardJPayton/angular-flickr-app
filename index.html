@@ -5,20 +5,39 @@
 
 <title>Angular Flickr App</title>
 
+<link rel="stylesheet" href="css/style.min.css">
+
 </head>
 
-<body ng-app="FlickrApp">
-	<div ng-controller="MainController">
+<body ng-app="FlickrApp" ng-controller="MainController">
+  <header>
+    <section class="header _wrap">
+      <h1>Angular Flickr API app</h1>
+    </section>
+  </header>
 
-	    <div ng-view></div>
+	<main>
+    <div class="page _wrap" ng-view></div>
+  </main>
 
-	</div>
+  <footer>
+    <section class="footer _wrap">
+      <h3>Angular Flickr API app</h3>
+      <p class="footer _createdBy">Created by Edward J Payton</p>
+      <p class="footer _thanks"></p>
+      <p>Downloads</p>
+      <p class="footer _links">Where to find me:<a href="http://codepen.io/edwardjpayton">codepen.io/edwardjpayton</a>, <a href="http://github.com/edwardjpayton">github.com/edwardjpayton</a></p>
+    </section>
+  </footer>
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-resource.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-route.js"></script>
-<script src="js/controllers/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-resource.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-route.min.js"></script>
+
+<script src="js/controllers/controllers.js"></script>
+<script src="js/services/services.js"></script>
+<script src="js/app.js"></script>
 
 <script type="text/javascript">
   angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));

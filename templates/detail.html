@@ -1,14 +1,18 @@
 <div class="detail _wrap">
-
-	Id: {{ params.photoId }}
-
+  <p id="forTesting" class="testing">Detail page</p>
 	<section class="detail _content">
-		<h1>{{ title }}</h1>
-		<a href="/">Home</a>
+		<h1>{{ item.title }}</h1>
+		<a href="/" class="detail _home-link / btn -btnHome">Home</a>
 		<div class="detail _header">
-			<a href="https://flickr.com/photos/{{ params.authorId }}" target="_blank">Photo Author</a>
-			
+			<a href="https://flickr.com/photos/{{ item.author_id }}" target="_blank">Photo Author</a>
+     	<p>{{ item.published }}</p>
+     	<a href="{{ item.link }}" target="_blank">Flickr Link</a>
 		</div>
-
+    <article class="detail _contentInner">
+      <img src="{{ item.media.m }}" />
+      <div class-"detail _tags">
+      	<a href="https://flickr.com/search/?tags={{ tag }}" target="_blank" class="detail _tag" ng-repeat="tag in myTags">{{ tag }}</a>
+      </div>
+    </article>
 	</section>
 </div>
