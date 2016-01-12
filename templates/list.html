@@ -1,23 +1,25 @@
 <div class="list _wrap" ng-cloak>
 	<form name="form" class="list _form">
 	  <input name="tags" type="text" placeholder="Enter tags separated by a comma" id="searchCriteria" ng-model="searchCriteria.tags" ng-target="form.tags" />
-	  <button type="submit" class="btn -btnSubmit" id="formSubmit" ng-disabled="!!!searchCriteria.tags" ng-click="search(searchCriteria);">Search Flickr</button>
+	  <button type="submit" class="btn -btnSubmit" id="formSubmit" ng-disabled="!!!searchCriteria.tags" ng-click="search(searchCriteria);">Search <span class="hideSmall">Flickr</span></button>
 	</form>
 
 	<section class="list _content">
 		<p ng-show="searching">Searching Flickr</p>
-	  <h2 id="resultTitle" ng-hide="searching" ng-show="images.items.length > 0">{{ images.title }}</h2>
+	  	<p class="list _resultTitle" id="resultTitle" ng-hide="searching" ng-show="images.items.length > 0">{{ images.title }}</p>
 	 	<ul class="list _listItems / list-no-padding" ng-hide="searching">
-	  	<li class="listItem _wrap" ng-repeat="item in images.items | limitTo: 5">
-	  		<a href="{{ imageRoute(item) }}" class="listItem _link -block" ng-click="openDetail(item)">
-	    		<img class="listItem _img" src="{{ item.media.m }}" />
-	    	</a>
+	  	<li class="listItem _wrap" ng-repeat="item in images.items">
+	  		<div class="listItem _imgWrap">
+	  			<a href="{{ imageRoute(item) }}" class="listItem _link -block" ng-click="openDetail(item)">
+		    		<img class="listItem _img" src="{{ item.media.m }}" />
+		    	</a>
+	  		</div>
 	    	<article class="listItem _content">
-	    		<h3><a href="{{ imageRoute(item) }}" class="listItem _link"  ng-click="openDetail(item)">{{ item.title }}</a></h3>
+	    		<h3><a href="{{ imageRoute(item) }}" class="listItem _link / link -linkInternal"  ng-click="openDetail(item)">{{ item.title }}</a></h3>
 	    		<div class="listItem _details">
-	    			<a href="https://flickr.com/photos/{{ item.author_id }}" target="_blank">{{ item.author }}</a>
-	    			<p>{{ item.published }}</p>
-	    			<a href="{{ item.link }}" target="_blank">{{ item.link }}</a>
+	    			<a href="https://flickr.com/photos/{{ item.author_id }}" target="_blank" class="link -linkExternal">{{ item.author_id }}</a><!-- I used author_id instead of author because author contains an email which is regularly nobody@flickr.com. With more refinement I would split the string and just return the name -->
+	    			<p>Published: {{ myDate(item.published) }}</p>
+	    			<a href="{{ item.link }}" target="_blank" class="btn -btnExternal">View on Flickr</a>
 	    		</div>
 	    	</article>
 	    </li>

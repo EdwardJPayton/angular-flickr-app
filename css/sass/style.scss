@@ -13,7 +13,8 @@
 /* Start of my styles */
 
 html, body {
-
+  font-family: $font1;
+  font-weight: $fontNormal;
 }
 body {
   background: $bgBody;
@@ -21,6 +22,10 @@ body {
 
 
 // General and repeating elements
+a {
+  text-decoration: none;
+  color: inherit;
+}
 .testing {
   display: none;
 }
@@ -31,6 +36,13 @@ body {
 .max-width {
   @extend %max-width;
   margin: auto;
+}
+%padding-h {
+  padding-left: 4%;
+  padding-right: 4%;
+}
+.padding-h {
+  @extend %padding-h;
 }
 %text-light {
   color: $textLight;
@@ -45,22 +57,91 @@ body {
   @extend %list-no-padding;
 }
 
-// Buttons
+// Buttons and links
 .btn {
+  padding: 4px 12px;
+  border: none;
+  border-radius: 3px;
+  &.-btnSubmit {
+    background: $flickrBlue;
+    color: $white;
+    &:disabled {
+      background: lighten($flickrBlue, 50%);
+    }
+    &:hover:enabled {
+      background: lighten($flickrBlue, 5%);
+    }
+    &:active:enabled {
+      background: darken($flickrBlue, 5%);
+    }
+  }
+  &.-btnExternal {
+    background: $flickrPink;
+    color: $white;
+    &:hover {
+      background: lighten($flickrPink, 10%);
+    }
+    &:active {
+      background: darken($flickrPink, 10%);
+    }
+  }
 
-  &._btnSubmit {
+  &.-btnHome {
+    background: $flickrBlue;
+    color: $white;
+    &:disabled {
+      background: lighten($flickrBlue, 50%);
+    }
+    &:hover:enabled {
+      background: lighten($flickrBlue, 5%);
+    }
+    &:active:enabled {
+      background: darken($flickrBlue, 5%);
+    }
+  }
+}
+.link {
 
+  &.-linkInternal {
+    @include ba(after,100%,1px,auto,0) {
+      bottom: 2px;
+      background: $flickrPink;
+    }
+
+    &:hover {
+      color: $flickrPink;
+    }
+  }
+
+  &.-linkExternal {
+    // For simplicity sake the styling is the same. Created two classes to indicate that I would style differently in a real build, e.g for improved usability
+    @include ba(after,100%,1px,auto,0) {
+      bottom: 2px;
+      background: $flickrPink;
+    }
+
+    &:hover {
+      color: $flickrPink;
+    }
   }
 }
 
 // Index
 header {
-
+  background: $charcoal;
+  color: $textLight;
   h1 {}
 }
 .header {
   &._wrap {
     @extend %max-width;
+    @extend %padding-h;
+  }
+
+  @include mq(max,sml) {
+    // max-width media query used for small tweaks
+    text-align: center;
+    font-size: 2rem;
   }
 }
 
@@ -69,27 +150,41 @@ main {}
   &._wrap {
     @extend %max-width;
     background: $bgApp;
-    border-radius: 5px;
+    min-height: 100%;
   }
 }
 
 footer {
-
+  background: $charcoal;
+  color: $textLight;
   h3 {}
 }
 .footer {
   &._wrap {
     @extend %max-width;
+    @extend %padding-h;
+    padding-top: $px20;
+    padding-bottom: $px20;
+    h3 {
+      font-size: 1.6rem;
+    }
+  }
+  &._createdBy,
+  &._links {
+    font-size: 1.4rem;
+    margin-top: $px10;
+    a {
+      font-size: inherit;
+    }
   }
   &._createdBy {
 
   }
-  &._thanks {
-
-  }
   &.links {
+  }
 
-    a {}
+  @include mq(min,lrg) {
+
   }
 }
 
@@ -100,21 +195,43 @@ footer {
     h1 {}
   }
   &._form {
+    @extend %padding-h;
     display: table;
     table-layout:fixed;
     width:100%;
     min-height: $px60;
+    padding: $px10 0;
+    border-bottom: 1px solid $gray;
     text-align: center;
     input,
     button {
       display: table-cell;
-      font-size: 2.5rem;
+      font-size: 2rem;
     }
-    input {}
-    button {}
+    input {
+      border-radius: 3px;
+      border: 1px solid $gray;
+      padding: 4px 8px;
+      margin-right: $px10;
+      width: calc( 100% - 140px );
+      max-width: 470px;
+      &:focus {
+        box-shadow: 0 0 4px lighten($flickrBlue, 30%);
+      }
+    }
+    button {
+      .hideSmall {
+        display: none;
+      }
+    }
+  }
+  &._resultTitle {
+    color: lighten($flickrBlue, 20%);
+    font-size: 1.6rem;
+    text-align: center;
   }
   &._content {
-
+    @extend %padding-h;
     p {}
     h2 {}
   }
@@ -125,37 +242,130 @@ footer {
 
   &Item {
     &._wrap {
-      @extend %grid-row;
+      display: table;
+      table-layout: fixed;
+      width:100%;
+      padding: $px20 0;
+      border-top: 1px solid $gray;
+      &:first-of-type {
+        border-top: none;
+      }
     }
-    &._link.-block,
+    &._imgWrap,
     &._content {
-      @extend %grid-item;
+      display: table-cell;
+      vertical-align: top;
+    }
+    &._imgWrap {
+      width: grid(3);
+      padding-top:10px;
     }
     &._link {
 
       &.-block {
-        width: grid(3);
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 0;
+        padding-bottom: 70%;
+        border: 1px solid $gray;
+        border-radius: 3px;
+        overflow: hidden;
       }
     }
     &._img {
-
+      width:100%;
     }
     &._content {
+      position: relative;
       width: grid(9);
       h3 {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        margin-left: 4%;
       }
     }
     &._details {
       position: relative;
+      left: 4%; // same as padding above
+      bottom: 0;
       a,
       p {
-        @extend %grid-item;
+        font-size: 1.4rem;
       }
-      a {}
-      p {}
+      a {
+        display: block; 
+        float: left;
+        clear: left;
+        &:first-child {
+          padding-top: 30px;
+        }
+        &:last-child {
+          margin-top: $px10;
+        }
+      }
+      p {
+        position: absolute;
+        top:0;
+      }
+    }
+  }
+  @include mq(min,sml) {
+    &Item {
+      &._details a {
+        display: inline-block;
+        float: none;
+      }
+    }
+  }
+  @include mq(min,sml) {
+    &._resultTitle {
+      text-align: left;
+    }
+  }
+  @include mq(min, mid) {
+    &._form button.hideSmall {
+      display: inline;
+    }
+    &._resultText {
+      text-align: left;
+    }
+    &Item {
+      h3 {
+        margin-top: $px10;
+        a {
+          font-size: 3rem;
+        }
+      }
+      &._imgWrap {
+        padding-top: 0;
+      }
+    }
+  }
+  @include mq(min,lrg) {
+    &Item {
+      &._details {
+        position: absolute;
+        bottom: $px10;
+        a,
+        p {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 1.6rem;
+        }
+        p {
+          position: static;
+        }
+        a {
+          &:first-child {
+            padding-top:0;
+          }
+          &:last-child {
+            margin-top: 0;
+          }
+        }
+      }
     }
   }
 }
@@ -166,9 +376,13 @@ footer {
 
   }
   &._content {
-
+    @extend %padding-h;
+    overflow: auto; // so text margins do not overflow
+    position: relative;
     h1 {}
-    a {}
+    a {
+      position: absolute;
+    }
   }
   &._header {
 

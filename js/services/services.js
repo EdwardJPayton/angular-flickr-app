@@ -13,5 +13,5 @@
         return item;
       }
     }
- });
+  })
 })(window.angular);

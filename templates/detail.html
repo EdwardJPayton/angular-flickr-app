@@ -1,12 +1,12 @@
-<div class="detail _wrap">
+<div class="detail _wrap" ng-cloak>
   <p id="forTesting" class="testing">Detail page</p>
 	<section class="detail _content">
 		<h1>{{ item.title }}</h1>
 		<a href="/" class="detail _home-link / btn -btnHome">Home</a>
 		<div class="detail _header">
-			<a href="https://flickr.com/photos/{{ item.author_id }}" target="_blank">Photo Author</a>
-     	<p>{{ item.published }}</p>
-     	<a href="{{ item.link }}" target="_blank">Flickr Link</a>
+			<a href="https://flickr.com/photos/{{ item.author_id }}" target="_blank">View post author on Flickr</a>
+     	<p>Published: {{ myDate(item.published) }}</p>
+     	<a href="{{ item.link }}" target="_blank">View on Flickr</a>
 		</div>
     <article class="detail _contentInner">
       <img src="{{ item.media.m }}" />

@@ -10,15 +10,14 @@ h1,h2,h3,h4,h5,h6,p,a,span,li,dt,dd {
   margin: 0;
 }
 h1,h2,h3,h4,h5,h6 {
-  font-weight: $fontMid;
 }
 // line height = font-size * golden ratio
 h1,h2 {
-  font-size: rem(5rem);
+  font-size: rem(3rem);
   line-height: 1.5;
 }
 h3,h4 {
-  font-size: rem(4rem);
+  font-size: rem(2.5rem);
   line-height: 1.5;
 }
 p,a,span,li,dt,dd {

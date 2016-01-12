@@ -47,9 +47,40 @@ angular.module('FlickrController', ['ngRoute'])
       .error(function(data) {
           console.log('error')
       });
-
     };
     $scope.init();
+
+    $scope.myDate = function(date) {
+      var date = new Date(date),
+
+          year = date.getFullYear(), 
+          month = date.getMonth(), 
+          day = date.getDate(),
+          hour = date.getHours(),
+          minute = date.getMinutes(),
+
+          monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+      function nth(day) {
+        var nth = '';
+        if( day > 3 && day < 21) nth = 'th'; 
+        switch (day % 10) {
+          case 1:  nth = "st";
+          case 2:  nth = "nd";
+          case 3:  nth = "rd";
+          default: nth = "th";
+        }
+        return day + nth;
+      }
+
+      if(minute < 10) minute = '0' + minute;
+
+      var rtnDate = nth(day) + ' ' + monthNames[month] + ' ' + year + ' at ' + hour + ':' + minute;
+
+      console.log(rtnDate);
+
+      return rtnDate;
+    }
 
     // Convert Flickr URL into route
     $scope.imageRoute = function(item) {
@@ -80,6 +111,39 @@ angular.module('FlickrController', ['ngRoute'])
     angular.forEach(myItem.tags.split(' '), function(tag) {
       $scope.myTags.push(tag);
     });
+
+    $scope.myDate = function(date) {
+      // TODO - move this into a service, repeated code is bad and I know it :)
+      var date = new Date(date),
+
+          year = date.getFullYear(), 
+          month = date.getMonth(), 
+          day = date.getDate(),
+          hour = date.getHours(),
+          minute = date.getMinutes(),
+
+          monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+      function nth(day) {
+        var nth = '';
+        if( day > 3 && day < 21) nth = 'th'; 
+        switch (day % 10) {
+          case 1:  nth = "st";
+          case 2:  nth = "nd";
+          case 3:  nth = "rd";
+          default: nth = "th";
+        }
+        return day + nth;
+      }
+
+      if(minute < 10) minute = '0' + minute;
+
+      var rtnDate = nth(day) + ' ' + monthNames[month] + ' ' + year + ' at ' + hour + ':' + minute;
+
+      console.log(rtnDate);
+
+      return rtnDate;
+    }
 
     // Not used because the Public Feed description includes images etc - it doesnt not include a text only field (either HTML or plain). Would require using the full API to collect detailed image data
     //$scope.myDescription = $sce.trustAsHtml(myItem.description); // output HTML tags

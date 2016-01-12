@@ -14,6 +14,7 @@ $yellow: #FF0;
 
 // B+W - light to dark
 $white: #FFF;
+$gray: #eee;
 $black: #000;
 $charcoal:#242331;
 
@@ -29,17 +30,17 @@ $shadow: #1c235c;
 // eg for colour mixing - mix($highlight, $red, 50%);
 
 // Theme colours
-$bgBody: lighten($flickrBlue, 30%);
+$bgBody: lighten($flickrBlue, 50%);
 $bgApp: $white;
 $textLight: $white;
 $altState: $flickrPink;
 
 
 // Sizes
-$px120: 120;
-$px60: 60;
-$px20: 20;
-$px10: 10;
+$px120: 120px;
+$px60: 60px;
+$px20: 20px;
+$px10: 10px;
 
 
 // Icon maps
@@ -59,11 +60,7 @@ $bounce: cubic-bezier(.87,-.41,.19,1.44);
 
 
 // Fonts
-//@import url(https://fonts.googleapis.com/css?family=Raleway:500,700,900);
-//$font1: 'Raleway', sans-serif;
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:900,700,400);
-$font1: 'Source Sans Pro', sans-serif;
-
-$fontLight:400;
-$fontMid:700;
-$fontBold:900
+@import url(https://fonts.googleapis.com/css?family=Istok+Web:400,700); // Similar Google Font to Flickrs
+$font1: 'Istok Web', sans-serif;
+$fontNormal:400;
+$fontBold:700;
