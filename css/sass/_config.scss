@@ -5,18 +5,18 @@ $pixelBase: 10px; // For Base 10 font sizing
 $boxSizing: border-box; // Border-box or content-box
 
 // Sticky footer
-$stickyFooter: false; // true or false
+$stickyFooter: true; // true or false
 
 // Grid
 $columns: 12;
-$maxWidth: 1200px;
+$maxWidth: 1000px;
 $gutter:10px;
 // Include gutter on .grid-i-X (add class name to .grid-row or .grid-i-X)
 $includeItemGutter: true; // Setting to false saves ~1.5kb grid compiled size
 // Include .push-x
 $includePush:true;
 // Include .pull-x
-$includePull:true;
+$includePull:false;
 
 // Old IE mode - for rem function, overridden in style-ie.scss
 $ie:false !default;

@@ -20,12 +20,19 @@ $charcoal:#242331;
 // Other colours
 $facebook: #576FAA;
 $twitter: #55ACEE;
+$flickrBlue: #0361DD;
+$flickrPink: #FF0084;
 
 // High and low - http://alistapart.com/article/mixing-color-for-the-web-with-sass
 $highlight: $white;
 $shadow: #1c235c;
 // eg for colour mixing - mix($highlight, $red, 50%);
 
+// Theme colours
+$bgBody: lighten($flickrBlue, 30%);
+$bgApp: $white;
+$textLight: $white;
+$altState: $flickrPink;
 
 
 // Sizes

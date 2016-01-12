@@ -1,0 +1,183 @@
+// On save compiles the main stylesheet
+@import "variables";
+@import "config";
+
+@import "functions";
+@import "mixins";
+@import "extends";
+
+@import "default-styles";
+
+@import 'grid-semantic';
+
+/* Start of my styles */
+
+html, body {
+
+}
+body {
+  background: $bgBody;
+}
+
+
+// General and repeating elements
+.testing {
+  display: none;
+}
+%max-width {
+  max-width: $maxWidth;
+  margin: auto;
+}
+.max-width {
+  @extend %max-width;
+  margin: auto;
+}
+%text-light {
+  color: $textLight;
+}
+.text-light {
+  @extend %text-light;
+}
+%list-no-padding {
+  padding-left: 0;
+}
+.list-no-padding {
+  @extend %list-no-padding;
+}
+
+// Buttons
+.btn {
+
+  &._btnSubmit {
+
+  }
+}
+
+// Index
+header {
+
+  h1 {}
+}
+.header {
+  &._wrap {
+    @extend %max-width;
+  }
+}
+
+main {}
+.page {
+  &._wrap {
+    @extend %max-width;
+    background: $bgApp;
+    border-radius: 5px;
+  }
+}
+
+footer {
+
+  h3 {}
+}
+.footer {
+  &._wrap {
+    @extend %max-width;
+  }
+  &._createdBy {
+
+  }
+  &._thanks {
+
+  }
+  &.links {
+
+    a {}
+  }
+}
+
+// List
+.list {
+  &._wrap {
+
+    h1 {}
+  }
+  &._form {
+    display: table;
+    table-layout:fixed;
+    width:100%;
+    min-height: $px60;
+    text-align: center;
+    input,
+    button {
+      display: table-cell;
+      font-size: 2.5rem;
+    }
+    input {}
+    button {}
+  }
+  &._content {
+
+    p {}
+    h2 {}
+  }
+  &._listItems {
+    // .listItems element becomes .listItem block
+
+  }
+
+  &Item {
+    &._wrap {
+      @extend %grid-row;
+    }
+    &._link.-block,
+    &._content {
+      @extend %grid-item;
+    }
+    &._link {
+
+      &.-block {
+        width: grid(3);
+      }
+    }
+    &._img {
+
+    }
+    &._content {
+      width: grid(9);
+      h3 {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    &._details {
+      position: relative;
+      a,
+      p {
+        @extend %grid-item;
+      }
+      a {}
+      p {}
+    }
+  }
+}
+
+// Detail
+.detail {
+  &._wrap {
+
+  }
+  &._content {
+
+    h1 {}
+    a {}
+  }
+  &._header {
+
+    a {}
+    p {}
+  }
+  &._contentInner {
+
+    img {}
+    p {}
+  }
+}
