@@ -5,7 +5,7 @@
 	</form>
 
 	<section class="list _content">
-		<p ng-show="searching">Searching Flickr</p>
+		<p ng-show="searching" class="list _searching">Searching Flickr</p>
 	  	<p class="list _resultTitle" id="resultTitle" ng-hide="searching" ng-show="images.items.length > 0">{{ images.title }}</p>
 	 	<ul class="list _listItems / list-no-padding" ng-hide="searching">
 	  	<li class="listItem _wrap" ng-repeat="item in images.items">

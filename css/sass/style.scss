@@ -236,6 +236,10 @@ footer {
     p {}
     h2 {}
   }
+  &._searching {
+    text-align: center;
+    padding: $px30 0;
+  }
   &._listItems {
     // .listItems element becomes .listItem block
 
