@@ -149,6 +149,21 @@ angular.module('FlickrController', ['ngRoute'])
     //$scope.myDescription = $sce.trustAsHtml(myItem.description); // output HTML tags
     // In view...
     // <p ng-bind-html="myDescription">{{ myDescription }}</p>
+    
+    // On more investigation of the API, the description text is always in the same location...
+    function getDescription(el) {
+      var htmlWrapper = document.createElement('div');
+      htmlWrapper.innerHTML = el;
+      var theDescription = htmlWrapper.getElementsByTagName('p');
+      if(theDescription[2]) {
+        theDescription = theDescription[2].outerHTML;
+        theDescription = theDescription.replace(/<\/?[^>]+>/gi, '');
+      } else {
+        theDescription = "No description available";
+      }
+      return theDescription;
+    }
+    $scope.myDescription = getDescription(myItem.description);
 
  }])
 
