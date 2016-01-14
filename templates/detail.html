@@ -9,6 +9,7 @@
     <article class="detail _contentInner">
       <img src="{{ item.media.m }}" />
       <div class="detail _details">
+      	<p class="details _description">{{ myDescription }}</p>
       	<span>Tags: </span><a href="https://flickr.com/search/?tags={{ tag }}" target="_blank" class="detail _tag / link -linkExternal" ng-repeat="tag in myTags">{{ tag }}</a>
       </div>
     </article>
